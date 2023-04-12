@@ -11,8 +11,7 @@ function realizarLogin() {
   user.name = prompt("Digite seu lindo nome para logar: ")
 
   const promessa = axios.post(`${urlBase}/participants`, user);
-  const sucess = promessa.then(processarResposta);
-  sucess.then(reposta => user)
+  promessa.then(r => console.log(user.name + " logado com sucesso"));
   promessa.catch(() => {
     alert("Esse nome já está logado, tente outro")
     realizarLogin()
@@ -21,10 +20,10 @@ function realizarLogin() {
 }
 
 function renderizarMensagens(mensagens) {
-
+  console.log("Renderizando novas mensagens..")
   const lista = document.querySelector(".lista-de-msgs")
   let msg = ''
-  for (let i = 0; i < 100; i++) {
+  for (let i = 87; i < 100; i++) {
     if (mensagens[i].type === "status") {
       msg += `
                   <li class="msg-status"> <span class="time">${mensagens[i].time}</span> <strong>${mensagens[i].from}</strong> ${mensagens[i].text} </li>
@@ -44,13 +43,7 @@ function renderizarMensagens(mensagens) {
   lista.innerHTML = msg
 }
 
-function processarResposta(resposta) {
-  console.log(resposta.data)
-  return resposta.data
-}
-
 function coletarMensagens() {
-  console.log("Chama")
   const promessa = axios.get(`${urlBase}/messages`)
   promessa.then(reposta => renderizarMensagens(reposta.data))
   promessa.catch(resposta => console.log(resposta))
@@ -58,21 +51,29 @@ function coletarMensagens() {
 }
 
 function manterUsuarioOnline(user) {
-  console.log("verificando online....", user)
   const promessa = axios.post(`${urlBase}/status`, user);
-  promessa.then(reposta => console.log(reposta.data))
+  promessa.then(reposta => console.log(user.name + " Segue Online"))
   promessa.catch(erro => console.log(erro))
 }
 
 function enviarMensagem() {
   let msg = document.querySelector("#msg")
 
-  console.log(msg.value)
+
+  const objMsg = {
+    from: user.name,
+    to: "Todos",
+    text: msg.value,
+    type: "message"
+  }
+  console.log(objMsg)
+  const promessa = axios.post(`${urlBase}/messages`, objMsg)
+  promessa.then(reposta => console.log("Mensagem Enviada", reposta))
+  promessa.catch(resposta => console.log("Erro ao enviar", resposta))
   //alert("Mensagem enviada com sucesso")
 
   msg.value = ""
 }
-
 
 
 realizarLogin()
@@ -83,34 +84,11 @@ setInterval(() => manterUsuarioOnline(user), 5000)
 
 
 
+const input = document.getElementById("msg");
+const button = document.getElementById("btn");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const input = document.getElementById("msg");
-// const button = document.getElementById("btn");
-
-// input.addEventListener("keydown", (event) => {
-//   if (event.key === "Enter") {
-//     button.click();
-//   }
-// });
+input.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    button.click();
+  }
+});
