@@ -26,16 +26,16 @@ function renderizarMensagens(mensagens) {
   for (let i = 87; i < 100; i++) {
     if (mensagens[i].type === "status") {
       msg += `
-                  <li class="msg-status"> <span class="time">${mensagens[i].time}</span> <strong>${mensagens[i].from}</strong> ${mensagens[i].text} </li>
+                  <li class="msg-status" data-test="message"> <span class="time">${mensagens[i].time}</span> <strong>${mensagens[i].from}</strong> ${mensagens[i].text} </li>
             `
     } else if (mensagens[i].type === "privMastoate_message" && mensagens[i].to === user.name) {
       msg += `
-                  <li class="msg-reservada"> <span class="time">${mensagens[i].time}</span>  <strong>${mensagens[i].from}</strong> reservadamente para <strong>${mensagens[i].to}</strong>: ${mensagens[i].text} </li>
+                  <li class="msg-reservada" data-test="message"> <span class="time">${mensagens[i].time}</span>  <strong>${mensagens[i].from}</strong> reservadamente para <strong>${mensagens[i].to}</strong>: ${mensagens[i].text} </li>
             `
     }
     else {
       msg += `
-                  <li class="msg-normal"> <span class="time">${mensagens[i].time} </span> <strong>${mensagens[i].from}</strong> para <strong>${mensagens[i].to}</strong>: ${mensagens[i].text} </li>
+                  <li class="msg-normal" data-test="message"> <span class="time">${mensagens[i].time} </span> <strong>${mensagens[i].from}</strong> para <strong>${mensagens[i].to}</strong>: ${mensagens[i].text} </li>
             `
     }
   }
@@ -66,11 +66,11 @@ function enviarMensagem() {
     text: msg.value,
     type: "message"
   }
-  console.log(objMsg)
+
   const promessa = axios.post(`${urlBase}/messages`, objMsg)
   promessa.then(reposta => console.log("Mensagem Enviada", reposta))
   promessa.catch(resposta => console.log("Erro ao enviar", resposta))
-  //alert("Mensagem enviada com sucesso")
+
 
   msg.value = ""
 }
