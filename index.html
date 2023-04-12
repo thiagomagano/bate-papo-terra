@@ -4,7 +4,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="reset.css" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
     <title>Bate papo Uol</title>
   </head>
   <body>
@@ -12,13 +19,26 @@
       <header>
         <img src="images/uol-logo.png" alt="Logo do Bate papo uol" />
       </header>
-      <main></main>
+      <main>
+        <ul class="lista-de-msgs"></ul>
+      </main>
 
       <footer>
-        <input type="text" name="mensagem" id="msg" />
-        <button>Enviar</button>
+        <input
+          type="text"
+          name="mensagem"
+          id="msg"
+          placeholder="Escreva aqui"
+        />
+        <button onclick="enviarMensagem()" id="btn">
+          <img
+            src="images/paper-plane-outline.svg"
+            alt="Icone de enviar Mensagem"
+          />
+        </button>
       </footer>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
