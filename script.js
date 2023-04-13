@@ -9,19 +9,21 @@ function realizarLogin() {
 
 
   user.name = prompt("Digite seu lindo nome para logar: ")
-
-  const promessa = axios.post(`${urlBase}/participants`, user);
-  promessa.then(r => {
-    console.log(user.name + " logado com sucesso")
-    coletarMensagens()
-
-    setInterval(coletarMensagens, 3000)
-    setInterval(() => manterUsuarioOnline(user), 5000)
-  });
-  promessa.catch(() => {
-    window.location.reload();
-  });
-
+  if (user.name !== undefined) {
+    const promessa = axios.post(`${urlBase}/participants`, user);
+    promessa.then(() => {
+      console.log(user.name + " logado com sucesso")
+      coletarMensagens()
+      setInterval(coletarMensagens, 3000)
+      setInterval(() => manterUsuarioOnline(user), 5000)
+    });
+    promessa.catch(() => {
+      // user.name = prompt("Nome já utilizado, por favor tente novamente")
+      // window.location.reload();
+      user.name = undefined
+      realizarLogin();
+    });
+  }
 }
 
 function renderizarMensagens(mensagens) {
