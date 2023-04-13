@@ -11,7 +11,13 @@ function realizarLogin() {
   user.name = prompt("Digite seu lindo nome para logar: ")
 
   const promessa = axios.post(`${urlBase}/participants`, user);
-  promessa.then(r => console.log(user.name + " logado com sucesso"));
+  promessa.then(r => {
+    console.log(user.name + " logado com sucesso")
+    coletarMensagens()
+
+    setInterval(coletarMensagens, 3000)
+    setInterval(() => manterUsuarioOnline(user), 5000)
+  });
   promessa.catch(() => {
     alert("Esse nome já está logado, tente outro")
     realizarLogin()
@@ -23,7 +29,7 @@ function renderizarMensagens(mensagens) {
   console.log("Renderizando novas mensagens..")
   const lista = document.querySelector(".lista-de-msgs")
   let msg = ''
-  for (let i = 87; i < 100; i++) {
+  for (let i = 0; i < mensagens.length; i++) {
     if (mensagens[i].type === "status") {
       msg += `
                   <li class="msg-status" data-test="message"> <span class="time">${mensagens[i].time}</span> <strong>${mensagens[i].from}</strong> ${mensagens[i].text} </li>
@@ -77,10 +83,7 @@ function enviarMensagem() {
 
 
 realizarLogin()
-coletarMensagens()
 
-setInterval(coletarMensagens, 3000)
-setInterval(() => manterUsuarioOnline(user), 5000)
 
 
 
