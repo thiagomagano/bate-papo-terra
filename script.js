@@ -19,8 +19,7 @@ function realizarLogin() {
     setInterval(() => manterUsuarioOnline(user), 5000)
   });
   promessa.catch(() => {
-    alert("Esse nome já está logado, tente outro")
-    realizarLogin()
+    window.location.reload();
   });
 
 }
@@ -75,9 +74,12 @@ function enviarMensagem() {
 
   const promessa = axios.post(`${urlBase}/messages`, objMsg)
   promessa.then(reposta => console.log("Mensagem Enviada", reposta))
-  promessa.catch(resposta => console.log("Erro ao enviar", resposta))
+  promessa.catch(resposta => {
+    console.log("Erro ao enviar", resposta)
+    window.location.reload()
+  })
 
-
+  coletarMensagens();
   msg.value = ""
 }
 
