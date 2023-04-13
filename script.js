@@ -33,7 +33,7 @@ function renderizarMensagens(mensagens) {
       msg += `
                   <li class="msg-status" data-test="message"> <span class="time">${mensagens[i].time}</span> <strong>${mensagens[i].from}</strong> ${mensagens[i].text} </li>
             `
-    } else if (mensagens[i].type === "privMastoate_message" && mensagens[i].to === user.name) {
+    } else if (mensagens[i].type === "private_message" && mensagens[i].to === user.name) {
       msg += `
                   <li class="msg-reservada" data-test="message"> <span class="time">${mensagens[i].time}</span>  <strong>${mensagens[i].from}</strong> reservadamente para <strong>${mensagens[i].to}</strong>: ${mensagens[i].text} </li>
             `
