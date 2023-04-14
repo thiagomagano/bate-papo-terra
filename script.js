@@ -32,6 +32,7 @@ function realizarLogin() {
 function renderizarMensagens(mensagens) {
   console.log("Renderizando novas mensagens..")
   const lista = document.querySelector(".lista-de-msgs")
+  lista.innerHTML = ""
   let msg = ''
   for (const mensagem of mensagens) {
     if (mensagem.type === "status") {
@@ -49,7 +50,6 @@ function renderizarMensagens(mensagens) {
             `
     }
   }
-
   lista.innerHTML = msg
 }
 
