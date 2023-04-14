@@ -6,9 +6,9 @@ const urlBase = "https://mock-api.driven.com.br/api/vm/uol"
 const user = {}
 
 function realizarLogin() {
+  let nome = prompt("Digite seu lindo nome para logar: ")
+  user.name = nome;
 
-
-  user.name = prompt("Digite seu lindo nome para logar: ")
   if (user.name !== undefined) {
     const promessa = axios.post(`${urlBase}/participants`, user);
     promessa.then(() => {
@@ -18,31 +18,34 @@ function realizarLogin() {
       setInterval(() => manterUsuarioOnline(user), 5000)
     });
     promessa.catch(() => {
-      // user.name = prompt("Nome já utilizado, por favor tente novamente")
-      // window.location.reload();
-      user.name = undefined
+      user.name = prompt("Nome já utilizado, por favor tente outro: ")
       realizarLogin();
     });
   }
+  else {
+    alert("Nome Invalido, tente novamente");
+    realizarLogin();
+  }
+
 }
 
 function renderizarMensagens(mensagens) {
   console.log("Renderizando novas mensagens..")
   const lista = document.querySelector(".lista-de-msgs")
   let msg = ''
-  for (let i = 0; i < mensagens.length; i++) {
-    if (mensagens[i].type === "status") {
+  for (const mensagem of mensagens) {
+    if (mensagem.type === "status") {
       msg += `
-                  <li class="msg-status" data-test="message"> <span class="time">${mensagens[i].time}</span> <strong>${mensagens[i].from}</strong> ${mensagens[i].text} </li>
+                  <li class="msg-status" data-test="message"> <span class="time">${mensagem.time}</span> <strong>${mensagem.from}</strong> ${mensagem.text} </li>
             `
-    } else if (mensagens[i].type === "private_message" && mensagens[i].to === user.name) {
+    } else if (mensagem.type === "private_message" && mensagem.to === user.name) {
       msg += `
-                  <li class="msg-reservada" data-test="message"> <span class="time">${mensagens[i].time}</span>  <strong>${mensagens[i].from}</strong> reservadamente para <strong>${mensagens[i].to}</strong>: ${mensagens[i].text} </li>
+                  <li class="msg-reservada" data-test="message"> <span class="time">${mensagem.time}</span>  <strong>${mensagem.from}</strong> reservadamente para <strong>${mensagem.to}</strong>: ${mensagem.text} </li>
             `
     }
     else {
       msg += `
-                  <li class="msg-normal" data-test="message"> <span class="time">${mensagens[i].time} </span> <strong>${mensagens[i].from}</strong> para <strong>${mensagens[i].to}</strong>: ${mensagens[i].text} </li>
+                  <li class="msg-normal" data-test="message"> <span class="time">${mensagem.time} </span> <strong>${mensagem.from}</strong> para <strong>${mensagem.to}</strong>: ${mensagem.text} </li>
             `
     }
   }
